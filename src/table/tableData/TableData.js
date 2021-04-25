@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './styles.scss';
 import {
-  FaComment, FaTimes,
+  FaComment, FaTimes, FaStar,
 } from 'react-icons/fa';
 import { BuildContext } from '../context/build/buildContext';
 import { TableContext } from '../context/table/tableContext';
-
+import Comment from '../comment';
 
 const TableData = () => {
   const { rowsData, OnBuild } = useContext(BuildContext);
@@ -22,7 +22,11 @@ const TableData = () => {
 
   const handleComment = (e, id) => {
     e.stopPropagation();
-    setSelected(id);
+    if (id !== selected) {
+      setSelected(id);
+    } else {
+      setSelected(0);
+    }
   };
 
   const handleHide = (e, title) => {
@@ -47,103 +51,96 @@ const TableData = () => {
     setHidden(arrOfHidden);
   };
 
-  const handleSetRow = (id) => {
-    if (id !== selected) {
-      setSelected(id);
-    } else {
-      setSelected(0);
+  const getFilmClass = (item) => {
+    if (hidden.findIndex((x) => x === item.title) > -1) {
+      return 'hidden';
     }
+    if (item.id === selected) {
+      return 'film selected';
+    }
+    return 'film';
   };
 
   return (
     <div>
-      {rowsData.length > 0 && hidden.length > 0 ? (
-        <section>
-          <p>Hidden Films</p>
-          <div style={{ marginBottom: 16 }}>
-            {hidden.map((item) => (
-              <div key={item} className="chip">
-                <span>
-                  {item}
+      <section className="films">
+        {rowsData.map((item) => (
+          <div
+            key={item.id}
+            className={getFilmClass(item)}
+          >
+            <img src={item.medium_cover_image} alt={item.title} />
+            <div className="title">
+              <span className="name">{`${item.title} ${item.year}`}</span>
+              <span>{`${Math.floor(item.runtime / 60)}:${item.runtime % 60}`}</span>
+            </div>
+            <div className="rating">
+              <FaStar />
+              {` ${item.rating}/10`}
+            </div>
+            <div className="genres">
+              {item.genres !== undefined ? (
+                <>
+                  {item.genres.map((genre) => (
+                    <div key={genre} className="chip">
+                      <span>
+                        {genre}
+                      </span>
+                    </div>
+                  ))}
+                </>
+              ) : null}
+            </div>
+            <div className="actions">
+              <button
+                type="button"
+                onClick={(e) => handleComment(e, item.id)}
+              >
+                <span className="label">
+                  <FaComment />
                 </span>
-                <button
-                  type="button"
-                  onClick={(e) => handleShow(e, item)}
-                >
-                  <span className="label">
-                    <FaTimes />
-                  </span>
-                </button>
-              </div>
-            ))}
+              </button>
+              <button
+                type="button"
+                onClick={(e) => handleHide(e, item.title)}
+              >
+                <span className="label">
+                  <FaTimes />
+                </span>
+              </button>
+            </div>
+            {selected === item.id ? (
+              <Comment />
+            ) : null}
           </div>
-        </section>
+        ))}
+      </section>
+      {rowsData.length > 0 && hidden.length > 0 ? (
+        <div className="paper">
+          <div className="item">
+            <section>
+              <p>Hidden Films</p>
+              <div style={{ marginBottom: 16 }}>
+                {hidden.map((item) => (
+                  <div key={item} className="chip">
+                    <span>
+                      {item}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => handleShow(e, item)}
+                    >
+                      <span className="label">
+                        <FaTimes />
+                      </span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
       ) : null}
-      <table className="table">
-        <thead className="table-head">
-          <tr className="table-row">
-            <th>ID</th>
-            <th>Name</th>
-            <th>Year</th>
-            <th>Rating</th>
-            <th>Genres</th>
-            <th>MPAA rating</th>
-            <th>Runtime</th>
-            <th>Comment</th>
-            <th>Hide</th>
-          </tr>
-        </thead>
-        <tbody className="table-body">
-          {rowsData.map((item) => (
-            <tr
-              onClick={() => handleSetRow(item.id)}
-              key={item.id}
-              className={hidden.findIndex((x) => x === item.title) > -1 ? 'hidden' : item.id === selected ? 'selected' : null}
-            >
-              <td>{item.id}</td>
-              <td>{item.title}</td>
-              <td>{item.year}</td>
-              <td>{item.rating}</td>
-              <td>
-                {item.genres !== undefined ? (
-                  <>
-                    {item.genres.map((genre) => (
-                      <div key={genre} className="chip">
-                        <span>
-                          {genre}
-                        </span>
-                      </div>
-                    ))}
-                  </>
-                ) : null}
-
-              </td>
-              <td>{item.mpa_rating}</td>
-              <td>{item.runtime}</td>
-              <td>
-                <button
-                  type="button"
-                  onClick={(e) => handleComment(e, item.id)}
-                >
-                  <span className="label">
-                    <FaComment />
-                  </span>
-                </button>
-              </td>
-              <td>
-                <button
-                  type="button"
-                  onClick={(e) => handleHide(e, item.title)}
-                >
-                  <span className="label">
-                    <FaTimes />
-                  </span>
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };

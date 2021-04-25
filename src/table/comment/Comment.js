@@ -59,50 +59,43 @@ const Comment = () => {
     setListCom(tempArray);
   };
 
-  if (selected !== 0) {
-    return (
-      <div className="paper">
-        <div className="item">
-          <div className="comment">
-            <div className="wrapper">
-              <p>
-                Comments
-              </p>
-            </div>
-            <div className="wrapper">
-              <div className="list">
-                {listCom.map((item) => (
-                  <div key={item} className="value">
-                    <span>{item}</span>
-                    <button
-                      type="button"
-                      onClick={(e) => handleDeleteComment(e, item)}
-                    >
-                      <span className="label">
-                        <FaTimes />
-                      </span>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="wrapper">
-              <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
+  return (
+    <div className="comment">
+      <div className="wrapper">
+        <span>
+          Comments
+        </span>
+      </div>
+      <div className="wrapper">
+        <div className="list">
+          {listCom.map((item) => (
+            <div key={item} className="value">
+              <span>{item}</span>
               <button
                 type="button"
-                onClick={(e) => handleAddComment(e)}
+                onClick={(e) => handleDeleteComment(e, item)}
               >
                 <span className="label">
-                  <FaCheck />
+                  <FaTimes />
                 </span>
               </button>
             </div>
-          </div>
+          ))}
         </div>
       </div>
-    );
-  }
-  return (null);
+      <div className="wrapper">
+        <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
+        <button
+          type="button"
+          onClick={(e) => handleAddComment(e)}
+        >
+          <span className="label">
+            <FaCheck />
+          </span>
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Comment;

@@ -19,12 +19,9 @@ const Table = () => {
       <BuildState>
         <div className="container">
           <div className="paper">
-            <div className="item">
-              <DataTable />
-            </div>
             <Pagination />
           </div>
-          <Comment />
+          <DataTable />
           {/* <div className="paper">
             <button onClick={handleClearHide}>
               Отчистить HIDE

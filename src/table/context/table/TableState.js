@@ -11,7 +11,7 @@ const TableState = ({ children }) => {
     order: 'desc',
     orderBy: 'id',
     page: 1,
-    rowsPerPage: 15,
+    rowsPerPage: 12,
     count: 0,
     selected: 0,
     commented: 0,
