@@ -1,0 +1,54 @@
+.pagination:last-child {
+  padding: 0;
+}
+
+.pagination {
+  color: rgba(0, 0, 0, 0.87);
+  overflow: auto;
+  font-size: 0.875rem;
+}
+
+.toolbar {
+  display: flex;
+  position: relative;
+  align-items: center;
+  min-height: 52px;
+  padding-right: 2px;
+  padding-left: 24px;
+}
+
+.spacer {
+  flex: 1 1 100%;
+}
+.pages {
+  color: inherit;
+  font-size: 0.875rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  flex-shrink: 0;
+  margin: 0;
+}
+.buttons {
+  flex-shrink: 0;
+  margin-left: 20px;
+  button {
+    background-color: transparent;
+    padding: 12px;
+    width: 38px;
+    margin-left: 8px;
+    font-size: 1rem;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 50%;
+    .label {
+      width: 100%;
+      display: flex;
+      align-items: inherit;
+      justify-content: inherit;
+      svg {
+        width: 14px;
+      }
+    }
+  }
+}
