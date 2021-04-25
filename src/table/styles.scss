@@ -3,6 +3,8 @@
   display: flex;
   flex-wrap: wrap;
   box-sizing: border-box;
+  flex-direction: column;
+  flex-basis: 100%;
   .paper {
     padding: 2px 16px;
     margin-bottom: 8px;

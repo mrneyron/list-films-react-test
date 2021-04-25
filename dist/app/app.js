@@ -44275,9 +44275,7 @@ var Table = function Table() {
     className: "container"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "paper"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "item"
-  }, /*#__PURE__*/_react.default.createElement(_tableData.default, null)), /*#__PURE__*/_react.default.createElement(_pagination.default, null)), /*#__PURE__*/_react.default.createElement(_comment.default, null))));
+  }, /*#__PURE__*/_react.default.createElement(_pagination.default, null)), /*#__PURE__*/_react.default.createElement(_tableData.default, null))));
 };
 
 var _default = Table;
@@ -44430,49 +44428,41 @@ var Comment = function Comment() {
     setListCom(tempArray);
   };
 
-  if (selected !== 0) {
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "comment"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "wrapper"
+  }, /*#__PURE__*/_react.default.createElement("span", null, "Comments")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "wrapper"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "list"
+  }, listCom.map(function (item) {
     return /*#__PURE__*/_react.default.createElement("div", {
-      className: "paper"
-    }, /*#__PURE__*/_react.default.createElement("div", {
-      className: "item"
-    }, /*#__PURE__*/_react.default.createElement("div", {
-      className: "comment"
-    }, /*#__PURE__*/_react.default.createElement("div", {
-      className: "wrapper"
-    }, /*#__PURE__*/_react.default.createElement("p", null, "Comments")), /*#__PURE__*/_react.default.createElement("div", {
-      className: "wrapper"
-    }, /*#__PURE__*/_react.default.createElement("div", {
-      className: "list"
-    }, listCom.map(function (item) {
-      return /*#__PURE__*/_react.default.createElement("div", {
-        key: item,
-        className: "value"
-      }, /*#__PURE__*/_react.default.createElement("span", null, item), /*#__PURE__*/_react.default.createElement("button", {
-        type: "button",
-        onClick: function onClick(e) {
-          return handleDeleteComment(e, item);
-        }
-      }, /*#__PURE__*/_react.default.createElement("span", {
-        className: "label"
-      }, /*#__PURE__*/_react.default.createElement(_fa.FaTimes, null))));
-    }))), /*#__PURE__*/_react.default.createElement("div", {
-      className: "wrapper"
-    }, /*#__PURE__*/_react.default.createElement("textarea", {
-      value: comment,
-      onChange: function onChange(e) {
-        return setComment(e.target.value);
-      }
-    }), /*#__PURE__*/_react.default.createElement("button", {
+      key: item,
+      className: "value"
+    }, /*#__PURE__*/_react.default.createElement("span", null, item), /*#__PURE__*/_react.default.createElement("button", {
       type: "button",
       onClick: function onClick(e) {
-        return handleAddComment(e);
+        return handleDeleteComment(e, item);
       }
     }, /*#__PURE__*/_react.default.createElement("span", {
       className: "label"
-    }, /*#__PURE__*/_react.default.createElement(_fa.FaCheck, null)))))));
-  }
-
-  return null;
+    }, /*#__PURE__*/_react.default.createElement(_fa.FaTimes, null))));
+  }))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "wrapper"
+  }, /*#__PURE__*/_react.default.createElement("textarea", {
+    value: comment,
+    onChange: function onChange(e) {
+      return setComment(e.target.value);
+    }
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    type: "button",
+    onClick: function onClick(e) {
+      return handleAddComment(e);
+    }
+  }, /*#__PURE__*/_react.default.createElement("span", {
+    className: "label"
+  }, /*#__PURE__*/_react.default.createElement(_fa.FaCheck, null)))));
 };
 
 var _default = Comment;
@@ -44761,7 +44751,7 @@ var TableState = function TableState(_ref) {
     order: 'desc',
     orderBy: 'id',
     page: 1,
-    rowsPerPage: 15,
+    rowsPerPage: 14,
     count: 0,
     selected: 0,
     commented: 0
@@ -45238,6 +45228,8 @@ __webpack_require__(/*! core-js/modules/es.array.find-index.js */ "./node_module
 
 __webpack_require__(/*! core-js/modules/es.array.map.js */ "./node_modules/core-js/modules/es.array.map.js");
 
+__webpack_require__(/*! core-js/modules/es.array.concat.js */ "./node_modules/core-js/modules/es.array.concat.js");
+
 var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 __webpack_require__(/*! ./styles.scss */ "./src/table/tableData/styles.scss");
@@ -45247,6 +45239,10 @@ var _fa = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/
 var _buildContext = __webpack_require__(/*! ../context/build/buildContext */ "./src/table/context/build/buildContext.js");
 
 var _tableContext = __webpack_require__(/*! ../context/table/tableContext */ "./src/table/context/table/tableContext.js");
+
+var _comment = _interopRequireDefault(__webpack_require__(/*! ../comment */ "./src/table/comment/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -45289,7 +45285,12 @@ var TableData = function TableData() {
 
   var handleComment = function handleComment(e, id) {
     e.stopPropagation();
-    setSelected(id);
+
+    if (id !== selected) {
+      setSelected(id);
+    } else {
+      setSelected(0);
+    }
   };
 
   var handleHide = function handleHide(e, title) {
@@ -45322,15 +45323,64 @@ var TableData = function TableData() {
     setHidden(arrOfHidden);
   };
 
-  var handleSetRow = function handleSetRow(id) {
-    if (id !== selected) {
-      setSelected(id);
-    } else {
-      setSelected(0);
+  var getFilmClass = function getFilmClass(item) {
+    if (hidden.findIndex(function (x) {
+      return x === item.title;
+    }) > -1) {
+      return 'hidden';
     }
+
+    if (item.id === selected) {
+      return 'film selected';
+    }
+
+    return 'film';
   };
 
-  return /*#__PURE__*/_react.default.createElement("div", null, rowsData.length > 0 && hidden.length > 0 ? /*#__PURE__*/_react.default.createElement("section", null, /*#__PURE__*/_react.default.createElement("p", null, "Hidden Films"), /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("section", {
+    className: "films"
+  }, rowsData.map(function (item) {
+    return /*#__PURE__*/_react.default.createElement("div", {
+      key: item.id,
+      className: getFilmClass(item)
+    }, /*#__PURE__*/_react.default.createElement("img", {
+      src: item.medium_cover_image,
+      alt: item.title
+    }), /*#__PURE__*/_react.default.createElement("div", {
+      className: "title"
+    }, /*#__PURE__*/_react.default.createElement("span", {
+      className: "name"
+    }, "".concat(item.title, " ").concat(item.year)), /*#__PURE__*/_react.default.createElement("span", null, "".concat(Math.floor(item.runtime / 60), ":").concat(item.runtime % 60))), /*#__PURE__*/_react.default.createElement("div", {
+      className: "rating"
+    }, /*#__PURE__*/_react.default.createElement(_fa.FaStar, null), " ".concat(item.rating, "/10")), /*#__PURE__*/_react.default.createElement("div", {
+      className: "genres"
+    }, item.genres !== undefined ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, item.genres.map(function (genre) {
+      return /*#__PURE__*/_react.default.createElement("div", {
+        key: genre,
+        className: "chip"
+      }, /*#__PURE__*/_react.default.createElement("span", null, genre));
+    })) : null), /*#__PURE__*/_react.default.createElement("div", {
+      className: "actions"
+    }, /*#__PURE__*/_react.default.createElement("button", {
+      type: "button",
+      onClick: function onClick(e) {
+        return handleComment(e, item.id);
+      }
+    }, /*#__PURE__*/_react.default.createElement("span", {
+      className: "label"
+    }, /*#__PURE__*/_react.default.createElement(_fa.FaComment, null))), /*#__PURE__*/_react.default.createElement("button", {
+      type: "button",
+      onClick: function onClick(e) {
+        return handleHide(e, item.title);
+      }
+    }, /*#__PURE__*/_react.default.createElement("span", {
+      className: "label"
+    }, /*#__PURE__*/_react.default.createElement(_fa.FaTimes, null)))), selected === item.id ? /*#__PURE__*/_react.default.createElement(_comment.default, null) : null);
+  })), rowsData.length > 0 && hidden.length > 0 ? /*#__PURE__*/_react.default.createElement("div", {
+    className: "paper"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "item"
+  }, /*#__PURE__*/_react.default.createElement("section", null, /*#__PURE__*/_react.default.createElement("p", null, "Hidden Films"), /*#__PURE__*/_react.default.createElement("div", {
     style: {
       marginBottom: 16
     }
@@ -45346,44 +45396,7 @@ var TableData = function TableData() {
     }, /*#__PURE__*/_react.default.createElement("span", {
       className: "label"
     }, /*#__PURE__*/_react.default.createElement(_fa.FaTimes, null))));
-  }))) : null, /*#__PURE__*/_react.default.createElement("table", {
-    className: "table"
-  }, /*#__PURE__*/_react.default.createElement("thead", {
-    className: "table-head"
-  }, /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-row"
-  }, /*#__PURE__*/_react.default.createElement("th", null, "ID"), /*#__PURE__*/_react.default.createElement("th", null, "Name"), /*#__PURE__*/_react.default.createElement("th", null, "Year"), /*#__PURE__*/_react.default.createElement("th", null, "Rating"), /*#__PURE__*/_react.default.createElement("th", null, "Genres"), /*#__PURE__*/_react.default.createElement("th", null, "MPAA rating"), /*#__PURE__*/_react.default.createElement("th", null, "Runtime"), /*#__PURE__*/_react.default.createElement("th", null, "Comment"), /*#__PURE__*/_react.default.createElement("th", null, "Hide"))), /*#__PURE__*/_react.default.createElement("tbody", {
-    className: "table-body"
-  }, rowsData.map(function (item) {
-    return /*#__PURE__*/_react.default.createElement("tr", {
-      onClick: function onClick() {
-        return handleSetRow(item.id);
-      },
-      key: item.id,
-      className: hidden.findIndex(function (x) {
-        return x === item.title;
-      }) > -1 ? 'hidden' : item.id === selected ? 'selected' : null
-    }, /*#__PURE__*/_react.default.createElement("td", null, item.id), /*#__PURE__*/_react.default.createElement("td", null, item.title), /*#__PURE__*/_react.default.createElement("td", null, item.year), /*#__PURE__*/_react.default.createElement("td", null, item.rating), /*#__PURE__*/_react.default.createElement("td", null, item.genres !== undefined ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, item.genres.map(function (genre) {
-      return /*#__PURE__*/_react.default.createElement("div", {
-        key: genre,
-        className: "chip"
-      }, /*#__PURE__*/_react.default.createElement("span", null, genre));
-    })) : null), /*#__PURE__*/_react.default.createElement("td", null, item.mpa_rating), /*#__PURE__*/_react.default.createElement("td", null, item.runtime), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
-      type: "button",
-      onClick: function onClick(e) {
-        return handleComment(e, item.id);
-      }
-    }, /*#__PURE__*/_react.default.createElement("span", {
-      className: "label"
-    }, /*#__PURE__*/_react.default.createElement(_fa.FaComment, null)))), /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("button", {
-      type: "button",
-      onClick: function onClick(e) {
-        return handleHide(e, item.title);
-      }
-    }, /*#__PURE__*/_react.default.createElement("span", {
-      className: "label"
-    }, /*#__PURE__*/_react.default.createElement(_fa.FaTimes, null)))));
-  }))));
+  }))))) : null);
 };
 
 var _default = TableData;
