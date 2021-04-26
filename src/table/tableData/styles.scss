@@ -3,7 +3,7 @@ section.films {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  align-items: baseline;
+  align-items: flex-start;
   .film.selected{
     max-height: 700px;
   }
